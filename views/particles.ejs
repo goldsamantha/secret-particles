@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= data.msg %></h1>
+    <p><%= +new Date %></p>
+    <p><%= data.openedAt %></p>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+    var socket = io();
+
+    socket.once('connect', function() {
+      console.log('connected');
+      socket.emit('started', {id: location.pathname.slice(1), date: +new Date() });
+
+    socket.on('reconnect', function(){
+        console.log('reconnected');
+      })
+    });
+
+    var timeRemaining = <%= 15000 - (+new Date - data.openedAt) %>;
+
+
+    if (timeRemaining > 0) {
+      setTimeout(function(){
+        console.log("YES WORKS");
+      }, timeRemaining);
+    }
+    // var timeRemaining = data.openedAt + 1500 - (+new Date);
+
+  </script>
+
+  </body>
+</html>
