@@ -39,9 +39,17 @@ server.on('listening', onListening);
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('started', function(data){
-    model.setOpenedAt(data.id, data.date);
+    // if (!data.date){
+      model.setOpenedAt(data.id, data.date);
+
+      socket.emit('date', data.date);
+      console.log("date is: " +data.date);
+    // if (!data.date){
+    //   socket.emit('opendate', data.date);
+    // }
   });
 });
+
 
 
 /**

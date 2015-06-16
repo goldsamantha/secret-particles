@@ -7,29 +7,42 @@
   <body>
     <h1><%= data.msg %></h1>
     <p><%= +new Date %></p>
-    <p><%= data.openedAt %></p>
+    <p id = "textobj">Waiting</p>
+    <!-- <p><%= data.openedAt %></p> -->
 
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript">
     var socket = io();
+    var opendate=0;
 
     socket.once('connect', function() {
       console.log('connected');
-      socket.emit('started', {id: location.pathname.slice(1), date: +new Date() });
+      var dt = +new Date();
+      socket.emit('started', {id: location.pathname.slice(1), date: dt });
+      console.log('completed emit at date: ' + dt);
 
     socket.on('reconnect', function(){
         console.log('reconnected');
-      })
+      });
+
     });
 
-    var timeRemaining = <%= 15000 - (+new Date - data.openedAt) %>;
+    // var timeRemaining = <%= 15000 - (+new Date - data.openedAt) %>;
+
+    socket.on('date', function(opendate){
+      var timeRemaining = 15000 - (+new Date - opendate);
+      console.log("DATE: "+ opendate);
+
+      if (timeRemaining > 0) {
+        setTimeout(function(){
+          console.log("YES WORKS");
+          var txt = document.getElementById('textobj');
+          txt.innerHTML = "CH_CH_CHANGES!"
+        }, timeRemaining);
+      }
 
 
-    if (timeRemaining > 0) {
-      setTimeout(function(){
-        console.log("YES WORKS");
-      }, timeRemaining);
-    }
+    });
     // var timeRemaining = data.openedAt + 1500 - (+new Date);
 
   </script>

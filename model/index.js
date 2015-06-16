@@ -34,3 +34,9 @@ exports.setOpenedAt = function(id, date){
   }
   console.log(db);
 }
+
+
+//MIGHT NOT NEED
+exports.getDate = function(id){
+  return db[id].openedAt;
+}
