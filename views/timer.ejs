@@ -2,31 +2,15 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/part.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1 id="message"><%= data.msg %></h1>
+    <h1><%= data.msg %></h1>
     <p><%= +new Date %></p>
     <p id = "textobj">Waiting</p>
-
-
-    <canvas id="cnv" width=800 height=500>
-    </canvas>
-    <!-- <input type="text" id="fname" autofocus onkeyup="changeText()" > -->
-    <!-- <span id="demo"> </span> -->
     <!-- <p><%= data.openedAt %></p> -->
 
   <script src="/socket.io/socket.io.js"></script>
-  <script type="text/javascript" src="/javascripts/particles.js"></script>
-  <script type="text/javascript">
-    var txt = document.getElementById('message').innerHTML;
-
-    setMouseOverController(false);
-    // selfDestruct();
-    startSim(txt);
-
-  </script>
-
   <script type="text/javascript">
     var socket = io();
     var opendate=0;
@@ -43,6 +27,8 @@
 
     });
 
+    // var timeRemaining = <%= 15000 - (+new Date - data.openedAt) %>;
+
     socket.on('date', function(opendate){
       var timeRemaining = 15000 - (+new Date - opendate);
       console.log("DATE: "+ opendate);
@@ -51,13 +37,13 @@
         setTimeout(function(){
           console.log("YES WORKS");
           var txt = document.getElementById('textobj');
-          txt.innerHTML = "CH_CH_CHANGES!";
-          selfDestruct();
+          txt.innerHTML = "CH_CH_CHANGES!"
         }, timeRemaining);
       }
 
 
     });
+    // var timeRemaining = data.openedAt + 1500 - (+new Date);
 
   </script>
 

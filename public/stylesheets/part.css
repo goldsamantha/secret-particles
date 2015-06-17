@@ -1,0 +1,19 @@
+#fname{
+  /*display: none;*/
+  opacity: 0;
+}
+
+#cnv{
+  margin: 0 auto;
+  /*width: 100%;*/
+  display: block;
+  /*border: 1px solid #ff0000;*/
+  /*position: relative;*/
+}
+
+
+body{
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+}
