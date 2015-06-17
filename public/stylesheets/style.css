@@ -32,6 +32,7 @@ a {
 
 .container input[type=text]{
   border: none;
+  padding-bottom: 10px;
   border-bottom: 2px solid #fff;
   background-color: rgba(1,1,1,0);
   /*color: #89c0e0;*/
@@ -42,9 +43,6 @@ a {
 
 
 .container input[type=text]:focus, .container input[type=text].focus{
-  /*border-top: none;
-  border-right: none;
-  border-left: none;*/
   color: #eee;
   outline: none;
   border-bottom: 1px solid #3CFCFF;
@@ -53,9 +51,10 @@ a {
 
 .container input[type=submit]{
   /*border: none;*/
+  padding: 3px 20px 10px 20px;
   margin-left: 20px;
-  color: #fff;
-  border: 1px solid #fff;
+  color: #3cfcff;
+  border: 1px solid #3cfcff;
   background-color: rgba(1,1,1,0);
   font-family: 'Lato';
   font-weight: 100;
