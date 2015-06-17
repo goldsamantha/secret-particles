@@ -5,8 +5,8 @@ var db = {};
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:45000/particles');
 
-var Schema = mongoose.Schema,
-  ObjectId = Schema.ObjectId;
+// var Schema = mongoose.Schema,
+//   ObjectId = Schema.ObjectId;
 
 // var particlesDB = new Schema({
 //   msg: String,

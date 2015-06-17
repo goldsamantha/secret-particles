@@ -39,14 +39,9 @@ server.on('listening', onListening);
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('started', function(data){
-    // if (!data.date){
       model.setOpenedAt(data.id, data.date);
-
       socket.emit('date', model.getOpenedAt(data.id)); //data.date);
       console.log("date is: " + model.getOpenedAt(data.id));
-    // if (!data.date){
-    //   socket.emit('opendate', data.date);
-    // }
   });
 });
 
