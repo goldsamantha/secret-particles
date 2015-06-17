@@ -3,6 +3,7 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/part.css' />
+    <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
   </head>
   <body>
     <h1 id="message"><%= data.msg %></h1>
@@ -12,6 +13,12 @@
 
     <canvas id="cnv" width=800 height=500>
     </canvas>
+
+
+    <div class="button">
+      <a href="/">Go Home</a>
+    </div>
+
 
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="/javascripts/particles.js"></script>
@@ -33,10 +40,11 @@
     });
 
     socket.on('date', function(opendate){
+      var max_time = 5000;
       var dt = +new Date;
-      var timeRemaining = 15000 - (dt - opendate);
-      console.log("OpenDate: "+ opendate+"\tDateNow: "+ dt);
-      console.log("Time Remaining: "+ timeRemaining);
+      var timeRemaining = max_time - (dt - opendate);
+      // console.log("OpenDate: "+ opendate+"\tDateNow: "+ dt);
+      // console.log("Time Remaining: "+ timeRemaining);
 
       if (timeRemaining > 0) {
         var txt = document.getElementById('message').innerHTML;

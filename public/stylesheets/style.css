@@ -19,7 +19,10 @@ h1{
 }
 
 a {
-  color: #00B7FF;
+  font-family: 'Lato';
+  color: #3cfcff;
+  font-weight: 100;
+
 }
 
 .container{

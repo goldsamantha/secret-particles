@@ -21,4 +21,23 @@ body{
   margin: 0;
   padding: 0;
   background-color: #222;
+  font: 14px  'Lato', "Calibri", Helvetica, Arial, sans-serif;
+}
+
+.button{
+  color: #3CFCFF;
+  border: 1px solid #3cfcff;
+  width: 100px;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+  padding: 10px;
+
+}
+
+.button a{
+  font-family: 'Lato' sans-serif;
+  font-weight: 100;
+  color: #3cfcff;
+  text-decoration: none;
 }
