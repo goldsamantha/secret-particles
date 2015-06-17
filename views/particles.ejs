@@ -6,26 +6,15 @@
   </head>
   <body>
     <h1 id="message"><%= data.msg %></h1>
-    <p><%= +new Date %></p>
-    <p id = "textobj">Waiting</p>
+    <!-- <p><%= +new Date %></p> -->
+    <!-- <p id = "textobj">Waiting</p> -->
 
 
     <canvas id="cnv" width=800 height=500>
     </canvas>
-    <!-- <input type="text" id="fname" autofocus onkeyup="changeText()" > -->
-    <!-- <span id="demo"> </span> -->
-    <!-- <p><%= data.openedAt %></p> -->
 
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript" src="/javascripts/particles.js"></script>
-  <script type="text/javascript">
-    var txt = document.getElementById('message').innerHTML;
-
-    setMouseOverController(false);
-    // selfDestruct();
-    startSim(txt);
-
-  </script>
 
   <script type="text/javascript">
     var socket = io();
@@ -44,16 +33,26 @@
     });
 
     socket.on('date', function(opendate){
-      var timeRemaining = 15000 - (+new Date - opendate);
-      console.log("DATE: "+ opendate);
+      var dt = +new Date;
+      var timeRemaining = 15000 - (dt - opendate);
+      console.log("OpenDate: "+ opendate+"\tDateNow: "+ dt);
+      console.log("Time Remaining: "+ timeRemaining);
 
       if (timeRemaining > 0) {
+        var txt = document.getElementById('message').innerHTML;
+
+        setMouseOverController(false);
+        startSim(txt);
+
         setTimeout(function(){
-          console.log("YES WORKS");
-          var txt = document.getElementById('textobj');
-          txt.innerHTML = "CH_CH_CHANGES!";
+          // console.log("YES WORKS");
+          // var txt = document.getElementById('textobj');
+          // txt.innerHTML = "CH_CH_CHANGES!";
           selfDestruct();
         }, timeRemaining);
+      } else{
+        startSim("Link Expired");
+        selfDestruct();
       }
 
 

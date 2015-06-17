@@ -42,8 +42,8 @@ io.on('connection', function(socket){
     // if (!data.date){
       model.setOpenedAt(data.id, data.date);
 
-      socket.emit('date', data.date);
-      console.log("date is: " +data.date);
+      socket.emit('date', model.getOpenedAt(data.id)); //data.date);
+      console.log("date is: " + model.getOpenedAt(data.id));
     // if (!data.date){
     //   socket.emit('opendate', data.date);
     // }

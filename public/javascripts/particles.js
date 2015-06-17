@@ -315,11 +315,6 @@ function clearCanv() {
 
 
 
-
-// var txt = document.getElementById('message').innerHTML; //"Type";
-
-// startSim(txt);
-
 function changeText() {
   if (initKeyup == true){
     cnv.width = window.innerWidth;
