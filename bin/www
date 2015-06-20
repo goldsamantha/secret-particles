@@ -40,8 +40,19 @@ io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('started', function(data){
       model.setOpenedAt(data.id, data.date);
-      socket.emit('date', model.getOpenedAt(data.id)); //data.date);
-      console.log("date is: " + model.getOpenedAt(data.id));
+
+      // Should modify here to send back the message as well
+      // as the time stamp: if (time <0: return{ "Link Expired", 5s})
+      var curr_date = +new Date;
+      var message = "Link Expired";
+      var timing = 5000 - (curr_date - model.getOpenedAt(data.id));
+      if (timing >0){
+        console.log("I passed timing and my time is: " + timing);
+        message = model.getMessage(data.id);
+      }
+      socket.emit('date', {timing: timing, msg: message}); //data.date);
+      console.log("date is: " + model.getOpenedAt(data.id)
+      + "\ttiming: " + timing + "\tmessage: " + message);
   });
 });
 

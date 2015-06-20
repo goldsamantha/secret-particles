@@ -1,5 +1,5 @@
 // Global Vars
-var max_dist = 6;
+var max_dist = 5;
 var max_d_onmouse = 50;
 var max_velocity = 2;
 var max_per_frame = 2;
@@ -331,6 +331,27 @@ function changeText() {
 }
 
 
+function wrapText(context, text, x, y, maxWidth, lineHeight) {
+  var words = text.split(' ');
+  var line = '';
+
+  for(var n = 0; n < words.length; n++) {
+    var testLine = line + words[n] + ' ';
+    var metrics = context.measureText(testLine);
+    console.log("metrics: ", metrics);
+    var testWidth = metrics.width;
+    if (testWidth > maxWidth && n > 0) {
+      context.fillText(line, x, y);
+      line = words[n] + ' ';
+      y += lineHeight;
+    }
+    else {
+      line = testLine;
+    }
+  }
+  context.fillText(line, x, y);
+}
+
 
 function startSim(words){
 
@@ -343,7 +364,8 @@ if (window.innerWidth < cnv.width){
 //Font family selection
 ctx.font = "normal 100pt sans-serif";
 ctx.fillStyle="black";
-ctx.fillText(words, 0 , 200);
+wrapText(ctx, words, 0, 100, cnv.width, 118);
+// ctx.fillText(words, 0 , 200);
 
 var imgData = ctx.getImageData(0,0, cnv.width, cnv.height);
 var data = imgData.data;

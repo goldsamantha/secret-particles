@@ -36,6 +36,12 @@ exports.setOpenedAt = function(id, date){
 }
 
 
+exports.getMessage = function(id){
+  if (id in db) return db[id].msg;
+  else throw new Error("Entry Not Found");
+}
+
+
 //MIGHT NOT NEED
 exports.getOpenedAt= function(id){
   return db[id].openedAt;

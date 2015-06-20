@@ -11,9 +11,13 @@
     <!-- <p id = "textobj">Waiting</p> -->
 
 
-    <canvas id="cnv" width=800 height=500>
+
+    <canvas id="cnv" width=800 height=400>
     </canvas>
 
+    <div class="container">
+    <h1> Your message will self-destruct in <span id="counter">0:05</span></h1>
+    </div>
 
     <div class="button">
       <a href="/">Go Home</a>
@@ -21,9 +25,46 @@
 
 
   <script src="/socket.io/socket.io.js"></script>
+  <script type="text/javascript">
+
+
+
+// var countdownTimer = setInterval('secondPassed()', 1000);
+
+
+
+    // function count(counter) {
+    //   // body...
+    //   return 1;
+    // }
+
+  </script>
   <script type="text/javascript" src="/javascripts/particles.js"></script>
 
   <script type="text/javascript">
+
+
+
+
+  var seconds = 4;
+  function secondPassed(element) {
+    var minutes = Math.round((seconds - 30)/60);
+    var remainingSeconds = seconds % 60;
+    if (remainingSeconds < 10) {
+        remainingSeconds = "0" + remainingSeconds;
+    }
+    element.innerHTML = minutes + ":" + remainingSeconds;
+    if (seconds == 0) {
+        clearInterval(countdownTimer);
+        element.innerHTML = "Boom";
+    } else {
+        seconds--;
+    }
+  }
+
+  var countdownTimer = setInterval("secondPassed(document.getElementById('counter'))",1000);
+
+
     var socket = io();
     var opendate=0;
 
@@ -39,30 +80,47 @@
 
     });
 
-    socket.on('date', function(opendate){
-      var max_time = 5000;
-      var dt = +new Date;
-      var timeRemaining = max_time - (dt - opendate);
-      // console.log("OpenDate: "+ opendate+"\tDateNow: "+ dt);
-      // console.log("Time Remaining: "+ timeRemaining);
+    socket.on('date', function(data){
+      var txt = data.msg;
+      setMouseOverController(false);
+      startSim(txt);
 
-      if (timeRemaining > 0) {
-        var txt = document.getElementById('message').innerHTML;
-        // var txt = String(<%= data.msg %>);
-
-        setMouseOverController(false);
-        startSim(txt);
-
-        setTimeout(function(){
-          selfDestruct();
-        }, timeRemaining);
-      } else{
-        startSim("Link Expired");
+      setTimeout(function(){
         selfDestruct();
-      }
+
+      }, data.timing);
 
 
     });
+
+    // socket.on('date', function(opendate){
+    //   var max_time = 5000;
+    //   var dt = +new Date;
+    //   var timeRemaining = max_time - (dt - opendate);
+    //   // console.log("OpenDate: "+ opendate+"\tDateNow: "+ dt);
+    //   // console.log("Time Remaining: "+ timeRemaining);
+    //
+    //   if (timeRemaining > 0) {
+    //     var txt = document.getElementById('message').innerHTML;
+    //     // var txt = String(<%= data.msg %>);
+    //
+    //     setMouseOverController(false);
+    //     startSim(txt);
+    //     //countdownTimer(timeRemaining, document.getElementById('counter'));
+    //
+    //
+    //     setTimeout(function(){
+    //       selfDestruct();
+    //     }, timeRemaining);
+    //   } else{
+    //     startSim("Link Expired");
+    //     selfDestruct();
+    //   }
+    //
+    //   // var countdownTimer = setInterval("secondPassed(document.getElementById('counter'))",1000);
+    //
+    //
+    // });
 
   </script>
 
