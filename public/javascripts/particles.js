@@ -3,15 +3,20 @@ var max_dist = 5;
 var max_d_onmouse = 50;
 var max_velocity = 2;
 var max_per_frame = 2;
-var max_radius = 3;
+var max_radius = 2;
 var particleList = [];
-var mousePos = new Vector(-8,-8);
+var mousePos = new Vector(-100,-100);
 var mouseRange = 28;
 var resetAnim = false;
 var initKeyup = true;
 var framerate = 55;
 var changeMouse = true;
 var selfDest = false;
+var initCursor = false;
+var cursor = 1;
+var cursorX = 0;
+var cursorY =0;
+var denom = 10;
 
 
 
@@ -284,11 +289,16 @@ var draw = function(particles){
   }
 }
 
+function turnOnCursor(){
+  initCursor = true;
+}
+
 
 
 function loop(){
   clearCanv();
   draw(particleList);
+  if (initCursor)  setCursor();
   queue();
 
 }
@@ -317,7 +327,9 @@ function clearCanv() {
 
 function changeText() {
   if (initKeyup == true){
-    cnv.width = window.innerWidth;
+    if (window.innerWidth < cnv.width){
+      cnv.width = window.innerWidth;
+    }
 
     initKeyup = false;
     return;
@@ -325,6 +337,7 @@ function changeText() {
   var x = document.getElementById("fname").value;
   txt = x;
   resetAnim = true;
+  // clearInterval(cursorToggle);
   startSim(txt);
 
 
@@ -338,7 +351,7 @@ function wrapText(context, text, x, y, maxWidth, lineHeight) {
   for(var n = 0; n < words.length; n++) {
     var testLine = line + words[n] + ' ';
     var metrics = context.measureText(testLine);
-    console.log("metrics: ", metrics);
+    // console.log("metrics: ", metrics);
     var testWidth = metrics.width;
     if (testWidth > maxWidth && n > 0) {
       context.fillText(line, x, y);
@@ -350,6 +363,30 @@ function wrapText(context, text, x, y, maxWidth, lineHeight) {
     }
   }
   context.fillText(line, x, y);
+  cursorX = context.measureText(line).width;
+  cursorY = y;
+}
+
+function setCursor(){
+  //cursorX, cursorY;
+
+  if (cursor>0){
+    var context = ctx;
+    context.beginPath();
+    // context.moveTo(metrics.width, y-100);
+    // context.lineTo(metrics.width, y);
+    context.moveTo(cursorX, cursorY-100);
+    context.lineTo(cursorX, cursorY);
+    context.strokeStyle = "#ffffff";
+    context.stroke();
+    // setCursor();
+  }
+  cursor++;
+  if (cursor>5){
+    cursor = -4;
+  }
+
+
 }
 
 
@@ -362,7 +399,7 @@ if (window.innerWidth < cnv.width){
 }
 
 //Font family selection
-ctx.font = "normal 100pt sans-serif";
+ctx.font = "normal 100pt Calibri"; //sans-serif";
 ctx.fillStyle="black";
 wrapText(ctx, words, 0, 100, cnv.width, 118);
 // ctx.fillText(words, 0 , 200);
@@ -390,7 +427,8 @@ for (var i=0; i<data.length; i++){
 
 ctx.clearRect(0,0,imageWidth, imageHeight);
 particleList = [];
-generateParticles(points, points.length/15);
+generateParticles(points, points.length/denom);
+// var cursorToggle = setInterval("setCursor()", 1000);
 loop();
 
 }

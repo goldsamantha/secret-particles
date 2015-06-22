@@ -3,6 +3,7 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/part.css' />
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
   </head>
   <body>
@@ -11,13 +12,35 @@
     <!-- <p>HI! <%= name %> </p> -->
 
     <div class="container">
-      <h1>Send an exploding message</h1>
-
-      <form class="" action="/save" method="get">
-        <input class="inp" type="text" name="msg" autofocus placeholder="Type your message"/>
-        <input type="submit" value="save"/>
-      </form>
+      <h1>Send an self-destructing message</h1>
     </div>
+      <canvas id="cnv" onclick="refocus()" width=900 height=375>
+      </canvas>
+
+      <div class="container">
+        <form class="" action="/save" method="get">
+          <input type="submit" value="save"/>
+          <input class="inp" id= "fname" type="text" autocomplete="off" name="msg" autofocus onkeyup="changeText()" placeholder="Type your message"/>
+        </form>
+      </div>
+
+
+
+  <script type="text/javascript" src="/javascripts/particles.js"></script>
+  <script type="text/javascript">
+  startSim("Type your message");
+  turnOnCursor();
+
+  function refocus(){
+    var texbx = document.getElementById('fname');
+    texbx.focus();
+    // console.log("Focusing...");
+  }
+
+
+
+
+  </script>
 
 
   </body>
