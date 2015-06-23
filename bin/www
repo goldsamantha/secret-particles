@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Module dependencies.
- */
+* Module dependencies.
+*/
 
 var app = require('../app');
 var debug = require('debug')('particles:server');
@@ -16,20 +16,20 @@ var model = require('../model');
 
 
 /**
- * Get port from environment and store in Express.
- */
+* Get port from environment and store in Express.
+*/
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
 /**
- * Create HTTP server.
- */
+* Create HTTP server.
+*/
 
 
 /**
- * Listen on provided port, on all network interfaces.
- */
+* Listen on provided port, on all network interfaces.
+*/
 
 server.listen(port);
 server.on('error', onError);
@@ -39,28 +39,29 @@ server.on('listening', onListening);
 io.on('connection', function(socket){
   console.log('a user connected');
   socket.on('started', function(data){
-      model.setOpenedAt(data.id, data.date);
-
-      // Should modify here to send back the message as well
-      // as the time stamp: if (time <0: return{ "Link Expired", 5s})
-      var curr_date = +new Date;
+    model.setOpenedAt(data.id, data.date, function(err, particle) {
+      var currDate = +new Date;
       var message = "Link Expired";
-      var timing = 5000 - (curr_date - model.getOpenedAt(data.id));
-      if (timing >0){
-        console.log("I passed timing and my time is: " + timing);
-        message = model.getMessage(data.id);
-      }
-      socket.emit('date', {timing: timing, msg: message}); //data.date);
-      console.log("date is: " + model.getOpenedAt(data.id)
-      + "\ttiming: " + timing + "\tmessage: " + message);
+      console.log(particle);
+      if (err) throw err;
+      model.getOpenedAt(data.id, function(err, openedAt) {
+        var timing = 5000 - (currDate - openedAt);
+        console.log(timing, currDate, openedAt);
+        if (timing > 0) {
+          message = particle.msg;
+        }
+        else timing = 5000;
+        socket.emit('date', {timing: timing, msg: message});
+      })
+    });
   });
 });
 
 
 
 /**
- * Normalize a port into a number, string, or false.
- */
+* Normalize a port into a number, string, or false.
+*/
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
@@ -79,8 +80,8 @@ function normalizePort(val) {
 }
 
 /**
- * Event listener for HTTP server "error" event.
- */
+* Event listener for HTTP server "error" event.
+*/
 
 function onError(error) {
   if (error.syscall !== 'listen') {
@@ -88,32 +89,32 @@ function onError(error) {
   }
 
   var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+  ? 'Pipe ' + port
+  : 'Port ' + port;
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
     case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
+    console.error(bind + ' requires elevated privileges');
+    process.exit(1);
+    break;
     case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
+    console.error(bind + ' is already in use');
+    process.exit(1);
+    break;
     default:
-      throw error;
+    throw error;
   }
 }
 
 /**
- * Event listener for HTTP server "listening" event.
- */
+* Event listener for HTTP server "listening" event.
+*/
 
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
+  ? 'pipe ' + addr
+  : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }

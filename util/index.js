@@ -117,3 +117,8 @@ function fromBase62ToInt(base62num){
 
 		return intNum;
 }
+
+module.exports = {
+  toBase62: toBase62,
+  fromBase62ToInt: fromBase62ToInt
+}

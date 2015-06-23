@@ -7,21 +7,21 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express', name: "Samantha" });
 });
 
-router.get('/save', function(req, res){
-  var idnum = model.save(req.query.msg);
-
-  // res.redirect('/?success=true&id='+idnum);
-  res.render('create', {id: idnum});
+router.get('/save', function(req, res, next){
+  var idnum = model.save(req.query.msg, function(err, particle) {
+    if (err) next(err);
+    res.render('create', {id: particle._id});
+  });
 });
 
 //get everything after colon
 router.get('/:id', function(req, res, next){
   var id = req.params.id;
-  try {
-    res.render('particles', { title: 'PARTICLES' , data: model.getById(id)});
-  } catch(err){
-    next(err);
-  }
+  model.getById(id, function(err, particle) {
+    if (err) next(err);
+    console.log(particle);
+    res.render('particles', {title: 'PARTICLES', data: particle});
+  });
 });
 
 module.exports = router;

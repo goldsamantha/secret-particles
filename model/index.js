@@ -1,19 +1,20 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var db = mongoose.connection;
-var particlesSchema = new Schema({
+var particleSchema = new Schema({
   _id: String,
   msg: String,
-  openedAt: Date
+  openedAt: Number
 });
-var Particles = mongoose.model('Particles', particlesSchema);
+var Particle = mongoose.model('Particle', particleSchema);
 var util = require('../util');
 
 mongoose.connect('mongodb://localhost:45000/particlesdb');
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function (callback) {
-  // yay!
+  console.log('opened connection to db');
+  console.log(callback);
 });
 
 // var uuid = require('uuid');
@@ -21,27 +22,30 @@ db.once('open', function (callback) {
 
 
 function getNextId(cb) {
-  return Particles.count(cb);
+  return Particle.count(cb);
 }
 
-exports.save = function(message){
+exports.save = function(message, cb){
   getNextId(function(err, count) {
+    if (err) cb(err);
+
     var particle = new Particle({
-      _id: count,
+      _id: util.toBase62(count + 1),
       msg: message,
-      date: new Date
+      openedAt: 0
     });
-    particle.save(function(err, particle) {
-      if (err) throw err;
-      console.log('Saved particle', particle);
-    });
+    particle.save(cb);
   });
-}
+};
 
-exports.getById = function(id, cb) {
-  Particles.find({_id: id}, cb);
-}
+function getById(id, cb) {
+  Particle.find({_id: id}, function (err, particleArray) {
+    if (err) cb(err);
+    cb(null, particleArray[0]);
+  });
+};
 
+exports.getById = getById;
 // exports.getById = function(id){
 //   if (id in db) return db[id];
 //   else throw new Error("Entry Not Found");
@@ -52,12 +56,16 @@ exports.setOpenedAt = function(id, date, cb) {
   getById(id, function(err, particle) {
     if (err) cb(err);
     if (!particle.openedAt) {
-      particle.openedAt = +new Date;
-      return particle.save(cb);
+      // particle.openedAt = +new Date;
+      console.log('Updating openedAt', id, date);
+      return Particle.update({_id: particle._id}, {openedAt: date}, function(err, _) {
+        if (err) cb(err);
+        cb(null, particle);
+      });
     }
     return cb(null, particle);
   });
-}
+};
 
 // exports.setOpenedAt = function(id, date){
 //   if (!db[id].openedAt){
@@ -72,7 +80,7 @@ exports.getMessage = function(id, cb) {
     if (err) cb(err);
     cb(null, particle.msg);
   });
-}
+};
 
 // exports.getMessage = function(id){
 //   if (id in db) return db[id].msg;
@@ -86,7 +94,7 @@ exports.getOpenedAt = function(id, cb) {
     if (err) cb(err);
     cb(null, particle.openedAt);
   });
-}
+};
 
 // exports.getOpenedAt= function(id){
 //   return db[id].openedAt;
