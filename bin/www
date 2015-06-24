@@ -41,7 +41,7 @@ io.on('connection', function(socket){
   socket.on('started', function(data){
     model.setOpenedAt(data.id, data.date, function(err, particle) {
       var currDate = +new Date;
-      var message = "Link Expired";
+      var message = "Permission Denied";
       console.log(particle);
       if (err) throw err;
       model.getOpenedAt(data.id, function(err, openedAt) {
