@@ -1,0 +1,63 @@
+body{
+  margin: 0;
+  padding: 0;
+  background-color: #111;
+  font: 14px  'VC323', 'Lato', Helvetica, Arial, sans-serif;
+}
+
+h1, p, a {
+  color: #fff;
+  /*font-weight: 100;*/
+  font-family: 'VT323';
+}
+
+a{
+  font-size: 20px;
+  color: #3cfcff;
+}
+
+
+.myForm{
+  display: none;
+}
+
+.container{
+  padding: 45px;
+}
+
+.caret{
+  display: inline;
+  padding-right: 14px;
+}
+
+.container input[type=text]{
+  border: none;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #fff;
+  background-color: rgba(1,1,1,0);
+  font-family: 'VT323';
+  font-weight: 100;
+  font-size: 24px;
+}
+
+
+.container input[type=text]:focus, .container input[type=text].focus{
+  color: #eee;
+  outline: none;
+  border-bottom: 1px solid #3CFCFF;
+}
+
+
+.container input[type=submit]{
+  /*border: none;*/
+  padding: 3px 20px 10px 20px;
+  display: inline-block;
+  /*margin: 0 auto;*/
+  margin-left: 20px;
+  color: #3cfcff;
+  border: 1px solid #3cfcff;
+  background-color: rgba(1,1,1,0);
+  font-family: 'VT323';
+  font-weight: 100;
+  font-size: 24px;
+}
