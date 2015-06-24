@@ -16,6 +16,10 @@ a{
   color: #3cfcff;
 }
 
+#message-text{
+  display: none;
+}
+
 
 .myForm{
   display: none;
