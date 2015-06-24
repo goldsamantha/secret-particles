@@ -3,7 +3,7 @@ body{
   margin: 0;
   padding: 0;
   background-color: #000;
-  font: 14px  'Lato', "Calibri", Helvetica, Arial, sans-serif;
+  font: 14px  'VC323', 'Lato', "Calibri", Helvetica, Arial, sans-serif;
 }
 
 #fname{
@@ -45,9 +45,9 @@ body{
 }
 h1{
   color: #fff;
-  font-family: 'Lato';
+  /*font-family: 'Lato';*/
   font-weight: 300;
-  text-align: center;
+  /*text-align: center;*/
   /*padding-bottom: 30px;*/
 }
 

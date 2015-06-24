@@ -399,7 +399,7 @@ if (window.innerWidth < cnv.width){
 }
 
 //Font family selection
-ctx.font = "normal 100pt Calibri"; //sans-serif";
+ctx.font = "normal 100pt VT323"; // Calibri"; //sans-serif";
 ctx.fillStyle="black";
 wrapText(ctx, words, 0, 100, cnv.width, 118);
 // ctx.fillText(words, 0 , 200);

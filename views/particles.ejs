@@ -2,28 +2,29 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/part.css' />
+    <link rel='stylesheet' href='/stylesheets/main.css' />
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
   </head>
   <body>
-    <h1 id="message"><%= data.msg %></h1>
+    <!-- <h1 id="message"><%= data.msg %></h1> -->
     <!-- <p><%= +new Date %></p> -->
     <!-- <p id = "textobj">Waiting</p> -->
 
 
+<div class="container">
 
     <canvas id="cnv" width=800 height=400>
     </canvas>
 
-    <div class="container">
     <h1> Your message will self-destruct in <span id="counter">0:05</span></h1>
-    </div>
 
     <div class="button">
       <a href="/">Go Home</a>
     </div>
 
 
+</div>
   <script src="/socket.io/socket.io.js"></script>
   <script type="text/javascript">
 

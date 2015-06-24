@@ -2,9 +2,11 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel='stylesheet' href='/stylesheets/part.css' />
+    <!-- <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/part.css' /> -->
+    <link rel='stylesheet' href='/stylesheets/main.css' />
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
   </head>
   <body>
     <!-- <h1><%= title %></h1> -->
@@ -12,30 +14,41 @@
     <!-- <p>HI! <%= name %> </p> -->
 
     <div class="container">
-      <h1>Send an self-destructing message</h1>
-    </div>
-      <canvas id="cnv" onclick="refocus()" width=900 height=375>
-      </canvas>
+      <h1 class = "init-text"></h1>
+      <!-- <canvas id="cnv" onclick="refocus()" width=900 height=375>
+      </canvas> -->
 
-      <div class="container">
-        <form class="" action="/save" method="get">
+        <form class="myForm" action="/save" method="get">
+          <!-- <input class="inp" id= "fname" type="text" autocomplete="off" name="msg" autofocus onkeyup="changeText()" placeholder="Type your message"/> -->
+          <p class="caret">&gt;</p>
+          <input class="inp" id= "fname" type="text" autocomplete="off" autofocus name="msg" placeholder="Type Here"/>
           <input type="submit" value="save"/>
-          <input class="inp" id= "fname" type="text" autocomplete="off" name="msg" autofocus onkeyup="changeText()" placeholder="Type your message"/>
         </form>
       </div>
 
 
 
-  <script type="text/javascript" src="/javascripts/particles.js"></script>
+  <!-- // <script type="text/javascript" src="/javascripts/particles.js"></script> -->
   <script type="text/javascript">
-  startSim("Type your message");
-  turnOnCursor();
+    txtElem = document.getElementsByClassName('init-text');
+    fullText = "Send a self-destructing message";
 
-  function refocus(){
-    var texbx = document.getElementById('fname');
-    texbx.focus();
-    // console.log("Focusing...");
-  }
+    var i=-1;
+    var mx = fullText.length;
+
+    function showText(obj, text){
+      obj.innerHTML = text +"|";
+
+      if (i> mx){
+        obj.innerHTML = text;
+        clearInterval(typer);
+        console.log(document.getElementsByClassName("myForm"));
+        document.getElementsByClassName("myForm")[0].style.display = "inline";
+      }
+    }
+
+    var typer = setInterval('showText(txtElem[0], fullText.slice(0,i++))', 25);
+
 
 
 
