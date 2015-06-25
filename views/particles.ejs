@@ -52,7 +52,7 @@
        socket.once('connect', function() {
          console.log('connected');
          var dt = +new Date();
-         socket.emit('started', {id: location.pathname.slice(-1), date: dt });
+         socket.emit('started', {id: location.pathname.split('/')[2], date: dt });
          console.log('completed emit at date: ' + dt);
 
          socket.on('reconnect', function(){
