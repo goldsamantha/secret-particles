@@ -13,36 +13,36 @@
 
       <h1 id="message-text"><%=data.msg%></h1>
       <h1>
-      Be careful who you give this link to. <br>
-      It can only be opened ONCE.
-      <br> <br>
-      Your link is:</h1>
-      <a id="linktopost" href = "//www.scatteredthoughts.co/<%=data._id%>" > www.scatteredthoughts.co/<%= data._id %></a>
+        Be careful who you give this link to. <br>
+        It can only be opened ONCE.
+        <br> <br>
+        Your link is:</h1>
+        <a id="linktopost" href = "//www.scatteredthoughts.co/show/<%=data._id%>" > www.scatteredthoughts.co/show/<%= data._id %></a>
 
-      <h1>Your message is shown below:</h1>
-      <br>
-      <br>
-      <br>
+        <h1>Your message is shown below:</h1>
+        <br>
+        <br>
+        <br>
 
-      <canvas id="cnv" width=800 height=400>
-      </canvas>
-      <!-- <form class="" action="/save" method="get">
+        <canvas id="cnv" width=800 height=400>
+        </canvas>
+        <!-- <form class="" action="/save" method="get">
         <input class="inp" type="text" name="msg" autofocus placeholder="Type your message"/>
         <input type="submit" value="save"/>
-      </form> -->
+        </form> -->
     </div>
 
 
     <script type="text/javascript" src="/javascripts/particles.js"></script>
     <script type="text/javascript">
 
-      // setMouseOverController(false);
-      // var txt = <%=data.msg%>;
-      var txt = document.getElementById("message-text").innerHTML;
-      startSim(txt);
+     // setMouseOverController(false);
+     // var txt = <%=data.msg%>;
+     var txt = document.getElementById("message-text").innerHTML;
+     startSim(txt);
 
-    // var link = document.getElementById('linktopost');
-    // link.href = link.innerHTML;
+     // var link = document.getElementById('linktopost');
+     // link.href = link.innerHTML;
     </script>
 
 
