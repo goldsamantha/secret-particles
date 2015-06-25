@@ -41,7 +41,8 @@ if (app.get('env') === 'development') {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
-      error: err
+      status: err.status || 500,
+      stack: err.stack
     });
   });
 }
@@ -52,7 +53,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
-    error: {}
+    status: err.status || 500,
+    stack: ''
   });
 });
 
