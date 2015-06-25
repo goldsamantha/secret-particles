@@ -12,9 +12,8 @@ var util = require('../util');
 mongoose.connect('mongodb://localhost:45000/particlesdb');
 
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function (callback) {
+db.once('open', function() {
   console.log('opened connection to db');
-  console.log(callback);
 });
 
 // var uuid = require('uuid');
@@ -25,25 +24,26 @@ function getNextId(cb) {
   return Particle.count(cb);
 }
 
-exports.save = function(message, cb){
+exports.save = function(message, cb) {
   getNextId(function(err, count) {
-    if (err) cb(err);
-
+    if (err) return cb(err);
     var particle = new Particle({
       _id: util.toBase62(count + 1),
       msg: message,
       openedAt: 0
     });
+
     particle.save(cb);
   });
 };
 
 function getById(id, cb) {
   Particle.find({_id: id}, function (err, particleArray) {
-    if (err) cb(err);
-    cb(null, particleArray[0]);
+    if (err) return cb(err);
+    if (!particleArray.length) return cb(new Error('Scattered thought ' + id + ' not found :('));
+    return cb(null, particleArray[0]);
   });
-};
+}
 
 exports.getById = getById;
 // exports.getById = function(id){
@@ -54,13 +54,13 @@ exports.getById = getById;
 
 exports.setOpenedAt = function(id, date, cb) {
   getById(id, function(err, particle) {
-    if (err) cb(err);
+    if (err) return cb(err);
     if (!particle.openedAt) {
       // particle.openedAt = +new Date;
       console.log('Updating openedAt', id, date);
-      return Particle.update({_id: particle._id}, {openedAt: date}, function(err, _) {
-        if (err) cb(err);
-        cb(null, particle);
+      return Particle.update({_id: particle._id}, {openedAt: date}, function(err) {
+        if (err) return cb(err);
+        return cb(null, particle);
       });
     }
     return cb(null, particle);
@@ -77,8 +77,8 @@ exports.setOpenedAt = function(id, date, cb) {
 
 exports.getMessage = function(id, cb) {
   getById(id, function(err, particle) {
-    if (err) cb(err);
-    cb(null, particle.msg);
+    if (err) return cb(err);
+    return cb(null, particle.msg);
   });
 };
 
@@ -91,8 +91,8 @@ exports.getMessage = function(id, cb) {
 //MIGHT NOT NEED
 exports.getOpenedAt = function(id, cb) {
   getById(id, function(err, particle) {
-    if (err) cb(err);
-    cb(null, particle.openedAt);
+    if (err) return cb(err);
+    return cb(null, particle.openedAt);
   });
 };
 
