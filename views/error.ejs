@@ -1,3 +1,18 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <title>Error</title>
+    <link href="/stylesheets/error.css" rel="stylesheet"/>
+    <style>
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="ohlord">
+        <h1><%= status %>: <%= message %></h1>
+        <pre><%= stack %></pre>
+      </section>
+    </main>
+  </body>
+</html>
