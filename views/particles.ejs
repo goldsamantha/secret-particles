@@ -12,118 +12,108 @@
     <!-- <p id = "textobj">Waiting</p> -->
 
 
-<div class="container">
+    <div class="container">
 
-    <canvas id="cnv" width=800 height=400>
-    </canvas>
+      <canvas id="cnv" width=800 height=400>
+      </canvas>
 
-    <h1> Your message will self-destruct in <span id="counter">0:05</span></h1>
+      <h1> Your message will self-destruct in <span id="counter"></span></h1>
 
-    <div class="button">
-      <a href="/">Go Home</a>
+      <div class="button">
+        <a href="/">Go Home</a>
+      </div>
+
+
     </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="/javascripts/particles.js"></script>
+    <script type="text/javascript">
+     (function(io) {
+       var seconds;
+       debugger;
+       function secondPassed(element, countdownTimer) {
+         var minutes = Math.round((seconds - 30)/60);
+         var remainingSeconds = seconds % 60 - 1;
+         if (remainingSeconds < 10) {
+           remainingSeconds = "0" + remainingSeconds;
+         }
+         element.innerHTML = minutes + ":" + remainingSeconds;
+         if (seconds == 0) {
+           clearInterval(countdownTimer);
+           element.innerHTML = "Boom";
+         } else {
+           seconds--;
+         }
+       }
 
+       var socket = io();
+       var opendate=0;
 
-</div>
-  <script src="/socket.io/socket.io.js"></script>
-  <script type="text/javascript">
+       socket.once('connect', function() {
+         console.log('connected');
+         var dt = +new Date();
+         socket.emit('started', {id: location.pathname.slice(-1), date: dt });
+         console.log('completed emit at date: ' + dt);
 
+         socket.on('reconnect', function(){
+           console.log('reconnected');
+         });
 
+       });
 
-// var countdownTimer = setInterval('secondPassed()', 1000);
+       socket.on('date', function(data){
+         var txt = data.msg;
 
+         // set timeRemaining and seconds to time got from server
+         var timeRemaining = seconds = Math.round(data.timing / 1000);
 
+         setMouseOverController(false);
+         startSim(txt);
 
-    // function count(counter) {
-    //   // body...
-    //   return 1;
-    // }
+         // set time in counter as per server time remaining for the thought
+         document.getElementById('counter').textContent = timeRemaining > 9 ? '0:' + timeRemaining : '0:0' + timeRemaining;
 
-  </script>
-  <script type="text/javascript" src="/javascripts/particles.js"></script>
+         // start the countdownTimer only once actual time is set in counter span
+         var countdownTimer = setInterval(function() {
+           secondPassed(document.getElementById('counter'), countdownTimer);
+         },1000);
 
-  <script type="text/javascript">
+         setTimeout(function(){
+           selfDestruct();
+         }, data.timing);
+       });
+     })(window.io);
 
+     // socket.on('date', function(opendate){
+     //   var max_time = 5000;
+     //   var dt = +new Date;
+     //   var timeRemaining = max_time - (dt - opendate);
+     //   // console.log("OpenDate: "+ opendate+"\tDateNow: "+ dt);
+     //   // console.log("Time Remaining: "+ timeRemaining);
+     //
+     //   if (timeRemaining > 0) {
+     //     var txt = document.getElementById('message').innerHTML;
+     //     // var txt = String(<%= data.msg %>);
+     //
+     //     setMouseOverController(false);
+     //     startSim(txt);
+     //     //countdownTimer(timeRemaining, document.getElementById('counter'));
+     //
+     //
+     //     setTimeout(function(){
+     //       selfDestruct();
+     //     }, timeRemaining);
+     //   } else{
+     //     startSim("Link Expired");
+     //     selfDestruct();
+     //   }
+     //
+     //   // var countdownTimer = setInterval("secondPassed(document.getElementById('counter'))",1000);
+     //
+     //
+     // });
 
-
-
-  var seconds = 4;
-  function secondPassed(element) {
-    var minutes = Math.round((seconds - 30)/60);
-    var remainingSeconds = seconds % 60;
-    if (remainingSeconds < 10) {
-        remainingSeconds = "0" + remainingSeconds;
-    }
-    element.innerHTML = minutes + ":" + remainingSeconds;
-    if (seconds == 0) {
-        clearInterval(countdownTimer);
-        element.innerHTML = "Boom";
-    } else {
-        seconds--;
-    }
-  }
-
-  var countdownTimer = setInterval("secondPassed(document.getElementById('counter'))",1000);
-
-
-    var socket = io();
-    var opendate=0;
-
-    socket.once('connect', function() {
-      console.log('connected');
-      var dt = +new Date();
-      socket.emit('started', {id: location.pathname.slice(1), date: dt });
-      console.log('completed emit at date: ' + dt);
-
-    socket.on('reconnect', function(){
-        console.log('reconnected');
-      });
-
-    });
-
-    socket.on('date', function(data){
-      var txt = data.msg;
-      setMouseOverController(false);
-      startSim(txt);
-
-      setTimeout(function(){
-        selfDestruct();
-
-      }, data.timing);
-
-
-    });
-
-    // socket.on('date', function(opendate){
-    //   var max_time = 5000;
-    //   var dt = +new Date;
-    //   var timeRemaining = max_time - (dt - opendate);
-    //   // console.log("OpenDate: "+ opendate+"\tDateNow: "+ dt);
-    //   // console.log("Time Remaining: "+ timeRemaining);
-    //
-    //   if (timeRemaining > 0) {
-    //     var txt = document.getElementById('message').innerHTML;
-    //     // var txt = String(<%= data.msg %>);
-    //
-    //     setMouseOverController(false);
-    //     startSim(txt);
-    //     //countdownTimer(timeRemaining, document.getElementById('counter'));
-    //
-    //
-    //     setTimeout(function(){
-    //       selfDestruct();
-    //     }, timeRemaining);
-    //   } else{
-    //     startSim("Link Expired");
-    //     selfDestruct();
-    //   }
-    //
-    //   // var countdownTimer = setInterval("secondPassed(document.getElementById('counter'))",1000);
-    //
-    //
-    // });
-
-  </script>
+    </script>
 
   </body>
 </html>
