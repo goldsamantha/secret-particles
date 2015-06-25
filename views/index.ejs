@@ -9,52 +9,39 @@
     <link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
   </head>
   <body>
-    <!-- <h1><%= title %></h1> -->
-    <!-- <p>Welcome to <%= title %></p> -->
-    <!-- <p>HI! <%= name %> </p> -->
-
     <div class="container">
       <h1 class = "init-text"></h1>
       <!-- <canvas id="cnv" onclick="refocus()" width=900 height=375>
       </canvas> -->
 
-        <form class="myForm" action="/save" method="get">
-          <!-- <input class="inp" id= "fname" type="text" autocomplete="off" name="msg" autofocus onkeyup="changeText()" placeholder="Type your message"/> -->
-          <p class="caret">&gt;</p>
-          <input class="inp" id= "fname" type="text" autocomplete="off" autofocus name="msg" placeholder="Type Here"/>
-          <input type="submit" value="save"/>
-        </form>
-      </div>
+      <form class="myForm" action="/save" method="get">
+        <!-- <input class="inp" id= "fname" type="text" autocomplete="off" name="msg" autofocus onkeyup="changeText()" placeholder="Type your message"/> -->
+        <p class="caret">&gt;</p>
+        <input class="inp" id= "fname" type="text" autocomplete="off" autofocus name="msg" placeholder="Type Here"/>
+        <input type="submit" value="save"/>
+      </form>
+    </div>
 
+    <!-- // <script type="text/javascript" src="/javascripts/particles.js"></script> -->
+    <script type="text/javascript">
+     txtElem = document.getElementsByClassName('init-text');
+     fullText = "Send a self-destructing message";
 
+     var i=-1;
+     var mx = fullText.length;
 
-  <!-- // <script type="text/javascript" src="/javascripts/particles.js"></script> -->
-  <script type="text/javascript">
-    txtElem = document.getElementsByClassName('init-text');
-    fullText = "Send a self-destructing message";
+     function showText(obj, text){
+       obj.innerHTML = text +"|";
 
-    var i=-1;
-    var mx = fullText.length;
+       if (i> mx){
+         obj.innerHTML = text;
+         clearInterval(typer);
+         console.log(document.getElementsByClassName("myForm"));
+         document.getElementsByClassName("myForm")[0].style.display = "inline";
+       }
+     }
 
-    function showText(obj, text){
-      obj.innerHTML = text +"|";
-
-      if (i> mx){
-        obj.innerHTML = text;
-        clearInterval(typer);
-        console.log(document.getElementsByClassName("myForm"));
-        document.getElementsByClassName("myForm")[0].style.display = "inline";
-      }
-    }
-
-    var typer = setInterval('showText(txtElem[0], fullText.slice(0,i++))', 55);
-
-
-
-
-
-  </script>
-
-
+     var typer = setInterval('showText(txtElem[0], fullText.slice(0,i++))', 55);
+    </script>
   </body>
 </html>
