@@ -4,13 +4,18 @@ var model = require('../model');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'PARTICLES', name: 'Samantha' });
+  res.render('index', {
+    title: 'PARTICLES',
+    name: 'Samantha'
+  });
 });
 
 router.get('/save', function(req, res, next) {
   model.save(req.query.msg, function(err, particle) {
     if (err) return next(err);
-    res.render('create', {data: particle});
+    res.render('create', {
+      data: particle
+    });
   });
 });
 
@@ -20,7 +25,10 @@ router.get('/show/:id', function(req, res, next) {
 
   model.getById(id, function(err, particle) {
     if (err) return next(err);
-    res.render('particles', {title: 'PARTICLES', data: particle});
+    res.render('particles', {
+      title: 'PARTICLES',
+      data: particle
+    });
   });
 });
 

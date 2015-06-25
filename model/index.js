@@ -38,7 +38,9 @@ exports.save = function(message, cb) {
 };
 
 function getById(id, cb) {
-  Particle.find({_id: id}, function (err, particleArray) {
+  Particle.find({
+    _id: id
+  }, function(err, particleArray) {
     if (err) return cb(err);
     if (!particleArray.length) return cb(new Error('Scattered thought ' + id + ' not found :('));
     return cb(null, particleArray[0]);
@@ -58,7 +60,11 @@ exports.setOpenedAt = function(id, date, cb) {
     if (!particle.openedAt) {
       // particle.openedAt = +new Date;
       console.log('Updating openedAt', id, date);
-      return Particle.update({_id: particle._id}, {openedAt: date}, function(err) {
+      return Particle.update({
+        _id: particle._id
+      }, {
+        openedAt: date
+      }, function(err) {
         if (err) return cb(err);
         return cb(null, particle);
       });
@@ -88,7 +94,7 @@ exports.getMessage = function(id, cb) {
 // }
 
 
-//MIGHT NOT NEED
+// MIGHT NOT NEED
 exports.getOpenedAt = function(id, cb) {
   getById(id, function(err, particle) {
     if (err) return cb(err);
